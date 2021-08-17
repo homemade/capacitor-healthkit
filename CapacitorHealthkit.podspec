@@ -6,7 +6,7 @@
     s.license = 'MIT'
     s.homepage = 'https://github.com/Ad-Scientiam/capacitor-healthkit.git'
     s.author = 'Ad Scientiam'
-    s.source = { :git => 'https://github.com/homemade/capacitor-healthkit', :tag => s.version.to_s }
+    s.source = { :git => 'https://github.com/homemade/capacitor-healthkit.git', :tag => s.version.to_s }
     s.source_files = 'ios/Plugin/**/*.{swift,h,m,c,cc,mm,cpp}'
     s.ios.deployment_target  = '11.0'
     s.dependency 'Capacitor'
