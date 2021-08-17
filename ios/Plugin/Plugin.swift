@@ -468,10 +468,10 @@ public class CapacitorHealthkit: CAPPlugin {
         guard let _sampleName = call.options["sampleName"] as? String else {
             return call.reject("Must provide sampleName")
         }
-        guard let _startDate = call.options["startDate"] as? Date else {
+        guard let _startDate = call.options["startDate"] as? String else {
             return call.reject("Must provide startDate")
         }
-        guard let _endDate = call.options["endDate"] as? Date else {
+        guard let _endDate = call.options["endDate"] as? String else {
             return call.reject("Must provide endDate")
         }
         guard let _limit = call.options["limit"] as? Int else {
@@ -479,8 +479,14 @@ public class CapacitorHealthkit: CAPPlugin {
         }
 
         let limit: Int = (_limit == 0) ? HKObjectQueryNoLimit : _limit
+        
+        // convert strings to dates
+        let isoDateFormatter = ISO8601DateFormatter()
+        isoDateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let _parsedStartDate = isoDateFormatter.date(from: _startDate)
+        let _parsedEndDate = isoDateFormatter.date(from: _endDate)
 
-        let predicate = HKQuery.predicateForSamples(withStart: _startDate, end: _endDate, options: HKQueryOptions.strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: _parsedStartDate, end: _parsedEndDate, options: HKQueryOptions.strictStartDate)
 
         guard let sampleType: HKSampleType = getSampleType(sampleName: _sampleName) else {
             return call.reject("Error in sample name")
